@@ -1,0 +1,26 @@
+## how to debug in nextflow
+
+s1. check log file in work dir
+s2. open .command.run to run the command
+s2.1 activate singularity file of the module you would like to test; (singularity shell singularity file of this module)
+
+## activate singularity
+singularity shell /home/junhui.li11-umw/Pipeline/chipseq/nf-core/nf-core-chipseq-2.0.0/workflow/../singularity-images/depot.galaxyproject.org-singularity-mulled-v2-fe8faa35dbf6dc65a0f7f5d4ea12e31a79f73e40-8110a70be2bfe7f75a2ea7f2a89cda4cc7732095-0.img
+
+## run command in singularity 
+
+#!/bin/bash -euo pipefail
+INDEX=`find -L ./ -name "*.amb" | sed 's/.amb//'`
+
+bwa mem \
+-M  -R '@RG\tID:GSM1517543_T1\tSM:GSM1517543\tPL:ILLUMINA\tLB:GSM1517543_T1\tPU:1' \
+-t 4 \
+$INDEX \
+GSM1517543_T1_trimmed.fq.gz > SM1517543_T1.sam
+
+s2.2 capture the error message from the above command
+
+
+s3. check the max-memory/time/cpu on project.config
+s4. check the base.config to make sure the all resource in each module dosent exceed the qeuee hard set.seed
+
